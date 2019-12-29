@@ -128,7 +128,7 @@ type levelIter struct {
 var _ internalIterator = (*levelIter)(nil)
 
 func newLevelIter(
-	opts *IterOptions,
+	opts IterOptions,
 	cmp Compare,
 	newIters tableNewIters,
 	files []fileMetadata,
@@ -140,18 +140,16 @@ func newLevelIter(
 }
 
 func (l *levelIter) init(
-	opts *IterOptions,
+	opts IterOptions,
 	cmp Compare,
 	newIters tableNewIters,
 	files []fileMetadata,
 	bytesIterated *uint64,
 ) {
 	l.logger = opts.getLogger()
-	if opts != nil {
-		l.lower = opts.LowerBound
-		l.upper = opts.UpperBound
-		l.tableOpts.TableFilter = opts.TableFilter
-	}
+	l.lower = opts.LowerBound
+	l.upper = opts.UpperBound
+	l.tableOpts.TableFilter = opts.TableFilter
 	l.cmp = cmp
 	l.index = -1
 	l.newIters = newIters
